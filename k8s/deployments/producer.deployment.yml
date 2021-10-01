@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer
+  labels:
+    tier: producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: producer
+  template:
+    metadata:
+      labels:
+        tier: producer
+    spec:
+      containers:
+      - name: rabbitmq-management
+        image: rabbitmq:3-management-alpine
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "512Mi"
+            cpu: "750m"
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+      - name: producer-api
+        image: producer:1.0
+        imagePullPolicy: Never
+        volumeMounts:
+          - mountPath: /usr/src/app
+            name: producer-api-volume
+        env:
+          - name: RABBITMQ_HOST
+            value: localhost
+          - name: SOURCE_PATH
+            value: /usr/src/app
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: producer-api-volume
+          persistentVolumeClaim:
+            claimName: producer-pvc

@@ -1,0 +1,24 @@
+
+<div class="px-4 py-5 my-5 text-center">
+
+  <h1 class="display-5 fw-bold mb-5">
+    <i class="bi bi-chat-square"></i> RabbitMQ consumer
+  </h1>
+
+  <div class="container">
+
+    <div class="row gap-3">
+      <app-messages-list class="col"
+        [headline]="'Messages received through the RabbitMQ queue'"
+        [messages]="(retrievedFromQueue$ | async)!">
+      </app-messages-list>
+
+      <app-messages-list class="col"
+        [headline]="'Messages retrieved by polling the API'"
+        [messages]="(retrievedByPolling$ | async)!">
+      </app-messages-list>
+    </div>
+
+  </div>
+
+</div>

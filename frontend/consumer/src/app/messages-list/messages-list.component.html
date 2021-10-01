@@ -1,0 +1,26 @@
+<div class="shadow py-3">
+  <p class="lead mb-4">{{headline}} ({{messages?.length || 0}} messages)</p>
+
+  <div *ngFor="let message of messages" class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+    <app-alert class="w-75" [message]="message"></app-alert>
+  </div>
+
+  
+
+  <div *ngIf="(messages?.length || 0) < 1" class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+    <div class="row w-75 justify-content-between alert alert-danger alert-dismissible fade show" role="alert">
+      <span class="col-2">
+        <i class="bi bi-chat-left mx-3"></i>
+      </span>
+    
+      <span class="col-2">
+        #-
+      </span>
+    
+      <span class="col text-start">
+        No message found
+      </span>
+    </div>
+  </div>
+
+</div>

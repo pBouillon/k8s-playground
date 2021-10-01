@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+  labels:
+    tier: consumer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: consumer
+  template:
+    metadata:
+      labels:
+        tier: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: consumer:1.0
+        imagePullPolicy: Never
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      - name: consumer-api
+        image: consumer-api:1.0
+        imagePullPolicy: Never
+        env:
+          - name: RABBITMQ_HOST
+            value: "rabbit-amqp"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000

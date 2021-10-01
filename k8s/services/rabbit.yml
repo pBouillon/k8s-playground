@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-amqp
+  labels:
+    tier: producer
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5672
+  selector:
+    tier: producer
+
+# kubectl port-forward svc/rabbit-amqp 5672:5672
+# minikube service --url rabbit-amqp
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-management
+  labels:
+    tier: producer
+spec:
+  type: NodePort
+  ports:
+  - port: 15672
+  selector:
+    tier: producer
+
+# kubectl port-forward svc/rabbit-management 15672:15672
+# minikube service --url rabbit-management

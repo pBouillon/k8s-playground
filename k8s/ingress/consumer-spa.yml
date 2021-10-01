@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: consumer-spa-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: k8s.apis
+    http:
+      paths:
+      - path: /consumer
+        pathType: Prefix
+        backend:
+          service:
+            name: consumer-api
+            port:
+              number: 8000
+      - path: /producer
+        pathType: Prefix
+        backend:
+          service:
+            name: producer-api
+            port:
+              number: 5000

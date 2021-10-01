@@ -1,0 +1,22 @@
+resources:
+  # volumes
+  - volumes/pv/producer.yml
+
+  # volume claims
+  - volumes/pvc/producer.yml
+
+  # services
+  - services/consumer-api.yml
+  - services/consumer-spa.yml
+  - services/producer.yml
+  - services/rabbit.yml
+
+  # deployments
+  - deployments/consumer.deployment.yml
+  - deployments/producer.deployment.yml
+
+  # ingress
+  - ingress/consumer-spa.yml
+
+# kubectl apply -k ./
+# kubectl delete -k ./

@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  consumer:
+    build:
+      context: ./frontend/consumer
+      dockerfile: Dockerfile
+    ports:
+      - 4200:80
+
+  consumer-api:
+    build:
+      context: ./frontend/consumer-api
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      - PYTHONUNBUFFERED=1
+      - RABBITMQ_HOST=rabbitmq
+
+  producer:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - RABBITMQ_HOST=rabbitmq
+    ports:
+      - 5000:80
